@@ -43,6 +43,7 @@ public class LaunchReview extends CordovaPlugin {
 		} else if ("rating".equals(action)){
 			ReviewManager manager = ReviewManagerFactory.create(cordova.getContext());
 			Task<ReviewInfo> request = manager.requestReviewFlow();
+			Log.d(LOG_TAG, "-------- Requesting rating ");
 			request.addOnCompleteListener(requestTask -> {
 				try{
 					if (taskWasSuccessful(requestTask)) {
@@ -79,6 +80,7 @@ public class LaunchReview extends CordovaPlugin {
 
 	private void handleException(Exception e, CallbackContext callbackContext){
 		callbackContext.error( "Exception occurred: ".concat(e.getMessage()));
+		Log.e(LOG_TAG, "------------ Rating error", e);
 	}
 
 	private boolean taskWasSuccessful(Task task){
@@ -87,5 +89,6 @@ public class LaunchReview extends CordovaPlugin {
 
 	private void handleTaskFailed(Task task, CallbackContext callbackContext){
 		callbackContext.error( "Task failed: ".concat(task.getException().getMessage()));
+		Log.e(LOG_TAG, "------------ Task failed".concat(task.getException().getMessage()));
 	}
 }
